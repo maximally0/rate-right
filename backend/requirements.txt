@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+motor
+pydantic[email]
+pydantic-settings
+python-dotenv
+langchain-openai
+langchain-mongodb
+certifi
+google-search-results
+httpx
+beautifulsoup4
+lxml
+linkup-sdk
+playwright
