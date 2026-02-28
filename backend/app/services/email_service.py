@@ -276,7 +276,7 @@ async def _extract_price_from_reply(reply_body: str, service_name: str) -> tuple
         )
         parsed = json.loads(resp.choices[0].message.content.strip())
         price = parsed.get("price")
-        currency = parsed.get("currency", "EUR")
+        currency = parsed.get("currency", "INR")
         if price and isinstance(price, (int, float)) and price > 0:
             return float(price), currency
         return None, None
@@ -434,7 +434,7 @@ async def check_for_replies() -> int:
             "service_type": inquiry["service_type"],
             "category": stype_doc["category"] if stype_doc else inquiry["service_type"],
             "price": price if price else 0,
-            "currency": currency if currency else "EUR",
+            "currency": currency if currency else "INR",
             "source_type": "quote",
             "source_url": source_url,
             "location": provider["location"] if provider else {"type": "Point", "coordinates": [0, 0]},

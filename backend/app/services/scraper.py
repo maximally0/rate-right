@@ -29,7 +29,7 @@ SKIP_SUBSTRINGS = [
     "blog", "news", "about", "contact", "privacy", "terms",
     "login", "cart", "facebook", "instagram", ".pdf",
 ]
-PRICE_RE = re.compile(r"([£€$])\s*([0-9]{1,6})(?:[.,]([0-9]{1,2}))?")
+PRICE_RE = re.compile(r"([₹£€$])\s*([0-9]{1,6})(?:[.,]([0-9]{1,2}))?")
 TOP_LINKS = 3
 TOP_SUBLINKS = 2
 PRICE_PAGE_KEYWORDS = {
@@ -47,7 +47,7 @@ provider's website, extract the price for the specified service.
 
 Rules:
 - Return ONLY a JSON object: {"price": <number>, "currency_symbol": "<symbol>"}
-- The currency_symbol must be one of: £, €, $
+- The currency_symbol must be one of: ₹, £, €, $
 - Match SEMANTICALLY, not just literally. For example:
   "chain replacement" matches "chain fitting", "new chain", "chain install".
   "oil change" matches "oil & filter change", "engine oil service".
@@ -59,7 +59,7 @@ Rules:
 
 
 def _currency_from_symbol(sym: str) -> str:
-    return {"€": "EUR", "£": "GBP", "$": "USD"}.get(sym, "")
+    return {"₹": "INR", "€": "EUR", "£": "GBP", "$": "USD"}.get(sym, "")
 
 
 def _tokenize_query(q: str) -> list[str]:
@@ -150,7 +150,7 @@ def _find_price_in_html(html: str, tokens: list[str]) -> tuple[str, float] | Non
 
     best: tuple[str, float, int] | None = None  # (sym, val, ctx_len)
 
-    for node in soup.find_all(string=lambda s: s and any(c in s for c in "£€$")):
+    for node in soup.find_all(string=lambda s: s and any(c in s for c in "₹£€$")):
         raw = str(node)
         m = PRICE_RE.search(raw)
         if not m:
@@ -177,7 +177,7 @@ def _find_price_in_html(html: str, tokens: list[str]) -> tuple[str, float] | Non
 
 
 def _fast_hit(html: str, tokens: list[str]) -> tuple[str, float] | None:
-    if not any(c in html for c in "£€$"):
+    if not any(c in html for c in "₹£€$"):
         return None
     low = html.lower()
     if tokens and not all(t in low for t in tokens):
@@ -302,7 +302,7 @@ async def _llm_extract_price(
         content = resp.choices[0].message.content.strip()
         parsed = json.loads(content)
         price = parsed.get("price")
-        symbol = parsed.get("currency_symbol", "£")
+        symbol = parsed.get("currency_symbol", "₹")
         if price is not None and isinstance(price, (int, float)) and price > 0:
             logger.info("LLM extracted price %s%.2f for %r", symbol, price, query)
             return symbol, round(float(price), 2)

@@ -18,12 +18,14 @@ export interface ProviderWithPrices {
   category_label: string;
   address: string;
   city: string;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
   location: GeoJSONPoint;
   distance_meters: number;
   rating: number | null;
   review_count: number | null;
   description: string | null;
-  website: string | null;
   observations: ObservationSummary[];
   inquiry_status: "none" | "sent" | "replied" | null;
 }

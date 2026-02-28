@@ -10,7 +10,7 @@ class ObservationCreate(BaseModel):
     provider_id: str = Field(..., description="ObjectId of the provider")
     service_type: str = Field(..., description="Slug of the service type", examples=["tire_change"])
     price: float = Field(..., gt=0, examples=[45.50])
-    currency: str = Field(default="EUR", examples=["EUR", "GBP"])
+    currency: str = Field(default="INR", examples=["INR", "USD"])
     source_type: Literal["scrape", "manual", "receipt", "quote"]
     observed_at: Optional[datetime] = Field(
         default=None,

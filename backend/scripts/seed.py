@@ -1,5 +1,5 @@
 """
-Seed script — populates London demo data for phone screen repair shops.
+Seed script — populates Delhi demo data for local service providers.
 
 Usage (from backend/):
     python -m scripts.seed
@@ -19,52 +19,70 @@ from app.config import settings
 random.seed(42)
 
 SERVICE_TYPES = [
-    {"slug": "iphone_screen_repair", "name": "iPhone Screen Repair", "category": "phone_repair", "description": "Cracked or broken iPhone display replacement"},
-    {"slug": "samsung_screen_repair", "name": "Samsung Screen Repair", "category": "phone_repair", "description": "Samsung Galaxy cracked screen replacement"},
-    {"slug": "ipad_screen_repair", "name": "iPad Screen Repair", "category": "phone_repair", "description": "iPad broken glass or LCD replacement"},
-    {"slug": "battery_replacement_phone", "name": "Phone Battery Replacement", "category": "phone_repair", "description": "Worn-out phone battery swap for any brand"},
-    {"slug": "back_glass_repair", "name": "Back Glass Repair", "category": "phone_repair", "description": "Rear glass panel replacement for iPhones and Samsung"},
-    {"slug": "charging_port_repair", "name": "Charging Port Repair", "category": "phone_repair", "description": "Broken or loose charging port fix"},
-    {"slug": "water_damage_repair", "name": "Water Damage Repair", "category": "phone_repair", "description": "Phone water damage diagnostic and repair"},
-    {"slug": "camera_repair", "name": "Camera Lens Repair", "category": "phone_repair", "description": "Cracked or blurry phone camera lens replacement"},
-    {"slug": "speaker_repair", "name": "Speaker Repair", "category": "phone_repair", "description": "Phone speaker or earpiece replacement"},
-    {"slug": "software_fix", "name": "Software Troubleshooting", "category": "phone_repair", "description": "Frozen phone, boot loops, or OS reinstall"},
+    # Mechanic services
+    {"slug": "car_ac_repair", "name": "Car AC Repair", "category": "mechanic", "description": "Air conditioning repair and gas refilling for cars"},
+    {"slug": "engine_oil_change", "name": "Engine Oil Change", "category": "mechanic", "description": "Engine oil and filter replacement service"},
+    {"slug": "brake_pad_replacement", "name": "Brake Pad Replacement", "category": "mechanic", "description": "Front and rear brake pad replacement"},
+    {"slug": "tire_change", "name": "Tire Change", "category": "mechanic", "description": "Tire replacement and wheel balancing"},
+    {"slug": "battery_replacement_car", "name": "Car Battery Replacement", "category": "mechanic", "description": "Car battery testing and replacement"},
+    {"slug": "full_car_service", "name": "Full Car Service", "category": "mechanic", "description": "Complete car servicing including oil, filters, and inspection"},
+    
+    # Electrician services
+    {"slug": "house_rewiring", "name": "House Rewiring", "category": "electrician", "description": "Complete electrical wiring for homes"},
+    {"slug": "inverter_installation", "name": "Inverter Installation", "category": "electrician", "description": "Home inverter and battery installation"},
+    {"slug": "fan_installation", "name": "Ceiling Fan Installation", "category": "electrician", "description": "Ceiling fan fitting and wiring"},
+    {"slug": "socket_installation", "name": "Socket Installation", "category": "electrician", "description": "Power socket and switchboard installation"},
+    {"slug": "mcb_replacement", "name": "MCB Replacement", "category": "electrician", "description": "Circuit breaker and fuse box replacement"},
+    
+    # Phone repair services
+    {"slug": "phone_screen_repair", "name": "Phone Screen Repair", "category": "phone_repair", "description": "Smartphone screen replacement for all brands"},
+    {"slug": "phone_battery_replacement", "name": "Phone Battery Replacement", "category": "phone_repair", "description": "Mobile phone battery replacement"},
+    {"slug": "charging_port_repair", "name": "Charging Port Repair", "category": "phone_repair", "description": "Phone charging port repair and replacement"},
 ]
 
 PRICE_RANGES = {
-    "iphone_screen_repair": (50, 250),
-    "samsung_screen_repair": (45, 220),
-    "ipad_screen_repair": (80, 300),
-    "battery_replacement_phone": (25, 70),
-    "back_glass_repair": (30, 120),
-    "charging_port_repair": (30, 90),
-    "water_damage_repair": (50, 150),
-    "camera_repair": (35, 100),
-    "speaker_repair": (25, 80),
-    "software_fix": (20, 60),
+    "car_ac_repair": (1500, 5000),
+    "engine_oil_change": (800, 2500),
+    "brake_pad_replacement": (1200, 4000),
+    "tire_change": (2000, 8000),
+    "battery_replacement_car": (3000, 8000),
+    "full_car_service": (2500, 7000),
+    "house_rewiring": (5000, 25000),
+    "inverter_installation": (8000, 20000),
+    "fan_installation": (300, 800),
+    "socket_installation": (200, 600),
+    "mcb_replacement": (500, 1500),
+    "phone_screen_repair": (1000, 5000),
+    "phone_battery_replacement": (500, 2000),
+    "charging_port_repair": (400, 1200),
 }
 
+# Delhi providers with realistic locations
 PROVIDERS = [
-    {"name": "iSmash Oxford Street", "category": "phone_repair", "address": "274 Oxford St, London W1C 1DS", "lng": -0.1479, "lat": 51.5153, "rating": 4.8, "review_count": 214, "description": "iPhone & Samsung screen replacement in 30 minutes. Original OLED panels, 6-month warranty on all repairs. Walk-ins welcome."},
-    {"name": "Repair Lab Shoreditch", "category": "phone_repair", "address": "12 Bethnal Green Rd, London E1 6GY", "lng": -0.0729, "lat": 51.5237, "rating": 4.6, "review_count": 156, "description": "Budget-friendly screen repair for all phone brands. Aftermarket and OEM options available. Same-day service guaranteed."},
-    {"name": "Fone World Camden", "category": "phone_repair", "address": "91 Camden High St, London NW1 7JN", "lng": -0.1387, "lat": 51.5392, "rating": 4.3, "review_count": 89, "description": "Walk-in phone repair shop with express 20-minute screen fixes. Free diagnostic on all devices."},
-    {"name": "ScreenFix Brixton", "category": "phone_repair", "address": "8 Electric Ave, Brixton, London SW9 8JX", "lng": -0.1142, "lat": 51.4619, "rating": 4.5, "review_count": 132, "description": "Community-trusted repairs since 2016. Specialising in water damage recovery and screen replacements."},
-    {"name": "Tech Repair Hub Stratford", "category": "phone_repair", "address": "Unit 3, Westfield Stratford, London E20 1EJ", "lng": -0.0065, "lat": 51.5437, "rating": 4.7, "review_count": 278, "description": "Premium repair centre inside Westfield. Genuine parts for iPhone, Samsung, and Google Pixel. 12-month warranty."},
-    {"name": "Phone Surgeon Islington", "category": "phone_repair", "address": "55 Upper St, Islington, London N1 0NY", "lng": -0.1030, "lat": 51.5362, "rating": 4.9, "review_count": 327, "description": "Apple-certified screen repairs for iPhone, iPad, and MacBook. Genuine Apple parts, calibrated True Tone display. 12-month warranty."},
-    {"name": "QuickFix Phones Lewisham", "category": "phone_repair", "address": "35 Lewisham High St, London SE13 5AF", "lng": -0.0141, "lat": 51.4543, "rating": 4.4, "review_count": 98, "description": "Affordable repairs with no appointment needed. Screen, battery, and charging port fixes while you wait."},
-    {"name": "Mobile Rescue Fulham", "category": "phone_repair", "address": "22 North End Rd, Fulham, London SW6 1NB", "lng": -0.1953, "lat": 51.4834, "rating": 4.2, "review_count": 67, "description": "Local phone repair with pickup and delivery service. Evening and weekend appointments available."},
-    {"name": "Cracked It Greenwich", "category": "phone_repair", "address": "15 Greenwich Church St, London SE10 9BJ", "lng": -0.0098, "lat": 51.4789, "rating": 4.6, "review_count": 143, "description": "Expert glass and LCD repairs for all major brands. Student discount available. Open 7 days a week."},
-    {"name": "Dr Screen Hackney", "category": "phone_repair", "address": "42 Mare St, Hackney, London E8 4RP", "lng": -0.0556, "lat": 51.5470, "rating": 4.1, "review_count": 54, "description": "Micro-soldering specialists. Complex board-level repairs alongside standard screen and battery swaps."},
-    {"name": "PhoneFix Express Covent Garden", "category": "phone_repair", "address": "9 Neal St, London WC2H 9PW", "lng": -0.1266, "lat": 51.5139, "rating": 4.7, "review_count": 201, "description": "Central London express repairs. Most screens replaced in under 25 minutes. Premium and budget part options."},
-    {"name": "iRepair Tottenham Court Rd", "category": "phone_repair", "address": "120 Tottenham Court Rd, London W1T 5AA", "lng": -0.1312, "lat": 51.5207, "rating": 4.5, "review_count": 189, "description": "Tech-focused repair shop with transparent pricing. Live repair tracking and lifetime warranty on labour."},
-    {"name": "Gadget Fix Bermondsey", "category": "phone_repair", "address": "71 Bermondsey St, London SE1 3XF", "lng": -0.0818, "lat": 51.4998, "rating": 4.3, "review_count": 76, "description": "Multi-device repair hub: phones, tablets, laptops. Same-day turnaround on most screen replacements."},
-    {"name": "FixMyPhone Kilburn", "category": "phone_repair", "address": "58 Kilburn High Rd, London NW6 4HJ", "lng": -0.1917, "lat": 51.5371, "rating": 4.0, "review_count": 52, "description": "Neighbourhood repair shop with honest pricing. No fix, no fee policy. Battery and screen repairs from £25."},
-    {"name": "SmashTech Croydon", "category": "phone_repair", "address": "22 High St, Croydon CR0 1YA", "lng": -0.0987, "lat": 51.3762, "rating": 4.4, "review_count": 115, "description": "South London's trusted repair service. Mail-in option available for all phone models. Free return shipping."},
-    {"name": "WeFix Ealing", "category": "phone_repair", "address": "14 The Broadway, London W5 2NR", "lng": -0.3047, "lat": 51.5093, "rating": 4.6, "review_count": 167, "description": "Family-run repair business. Specialising in iPhone and Samsung screens with OEM-grade parts. Kids' tablet repairs too."},
-    {"name": "Screen Saviour Wimbledon", "category": "phone_repair", "address": "5 The Broadway, Wimbledon, London SW19 1PS", "lng": -0.2064, "lat": 51.4214, "rating": 4.8, "review_count": 234, "description": "Rated best phone repair in SW London. Same-day screen and battery replacements. Appointment and walk-in."},
-    {"name": "Fone Doctor Walthamstow", "category": "phone_repair", "address": "30 Hoe St, London E17 4PG", "lng": -0.0232, "lat": 51.5830, "rating": 3.9, "review_count": 48, "description": "Budget-friendly phone fixes in East London. Quick turnaround on screens, ports, and batteries."},
-    {"name": "CellCare Tower Bridge", "category": "phone_repair", "address": "3 Tooley St, London SE1 2PF", "lng": -0.0757, "lat": 51.5050, "rating": 4.7, "review_count": 198, "description": "Corporate and walk-in phone repair near Tower Bridge. Volume discounts for businesses. All parts in stock."},
-    {"name": "ProFix Phones Battersea", "category": "phone_repair", "address": "18 Lavender Hill, London SW11 5RW", "lng": -0.1680, "lat": 51.4625, "rating": 4.5, "review_count": 141, "description": "Professional repairs with a personal touch. Free screen protector with every repair. Open late on Thursdays."},
+    {"name": "QuickFix Auto", "category": "mechanic", "address": "14 Connaught Place, New Delhi", "lng": 77.2167, "lat": 28.6315, "phone": "+91 98765 43210", "rating": 4.8, "review_count": 214, "description": "Professional car servicing and AC repair. Same-day service available."},
+    {"name": "Delhi Motors", "category": "mechanic", "address": "23 Karol Bagh, Delhi", "lng": 77.1900, "lat": 28.6519, "phone": "+91 98765 43211", "rating": 4.6, "review_count": 156, "description": "Trusted car repair shop. All brands serviced. Free pickup and drop."},
+    {"name": "Speed Auto Care", "category": "mechanic", "address": "45 Lajpat Nagar, Delhi", "lng": 77.2436, "lat": 28.5677, "phone": "+91 98765 43212", "rating": 4.3, "review_count": 89, "description": "Quick car repairs and maintenance. Genuine spare parts only."},
+    {"name": "City Garage", "category": "mechanic", "address": "12 Nehru Place, Delhi", "lng": 77.2507, "lat": 28.5494, "phone": "+91 98765 43213", "rating": 4.5, "review_count": 132, "description": "Complete car care center. AC repair specialists."},
+    {"name": "Auto Expert", "category": "mechanic", "address": "8 Saket, Delhi", "lng": 77.2167, "lat": 28.5244, "phone": "+91 98765 43214", "rating": 4.7, "review_count": 278, "description": "Premium car service center. Trained mechanics and modern equipment."},
+    
+    {"name": "Bright Electricals", "category": "electrician", "address": "34 Dwarka, Delhi", "lng": 77.0469, "lat": 28.5921, "phone": "+91 98765 43215", "rating": 4.9, "review_count": 327, "description": "Licensed electricians. House wiring and inverter installation experts."},
+    {"name": "Power Solutions", "category": "electrician", "address": "56 Rohini, Delhi", "lng": 77.1025, "lat": 28.7489, "phone": "+91 98765 43216", "rating": 4.4, "review_count": 98, "description": "24/7 electrical services. Emergency repairs available."},
+    {"name": "Delhi Electricals", "category": "electrician", "address": "78 Janakpuri, Delhi", "lng": 77.0833, "lat": 28.6219, "phone": "+91 98765 43217", "rating": 4.2, "review_count": 67, "description": "Affordable electrical work. Free estimates provided."},
+    {"name": "Spark Electric", "category": "electrician", "address": "90 Pitampura, Delhi", "lng": 77.1311, "lat": 28.6942, "phone": "+91 98765 43218", "rating": 4.6, "review_count": 143, "description": "Professional electricians. MCB and wiring specialists."},
+    {"name": "Volt Masters", "category": "electrician", "address": "23 Vasant Kunj, Delhi", "lng": 77.1597, "lat": 28.5244, "phone": "+91 98765 43219", "rating": 4.1, "review_count": 54, "description": "Expert electrical contractors. Commercial and residential work."},
+    
+    {"name": "Mobile Care Center", "category": "phone_repair", "address": "45 Nehru Place, Delhi", "lng": 77.2500, "lat": 28.5489, "phone": "+91 98765 43220", "rating": 4.7, "review_count": 201, "description": "All phone brands repaired. Screen replacement in 30 minutes."},
+    {"name": "Phone Fix Delhi", "category": "phone_repair", "address": "67 Lajpat Nagar, Delhi", "lng": 77.2430, "lat": 28.5680, "phone": "+91 98765 43221", "rating": 4.5, "review_count": 189, "description": "Budget-friendly phone repairs. Original and aftermarket parts available."},
+    {"name": "Smart Repair Hub", "category": "phone_repair", "address": "89 Connaught Place, Delhi", "lng": 77.2170, "lat": 28.6320, "phone": "+91 98765 43222", "rating": 4.3, "review_count": 76, "description": "iPhone and Android repair specialists. Walk-ins welcome."},
+    {"name": "Tech Medics", "category": "phone_repair", "address": "12 Karol Bagh, Delhi", "lng": 77.1905, "lat": 28.6515, "phone": "+91 98765 43223", "rating": 4.0, "review_count": 52, "description": "Phone screen and battery replacement. Same-day service."},
+    {"name": "Mobile Clinic", "category": "phone_repair", "address": "34 Saket, Delhi", "lng": 77.2170, "lat": 28.5240, "phone": "+91 98765 43224", "rating": 4.4, "review_count": 115, "description": "Authorized service center for major brands. Warranty on all repairs."},
+    
+    {"name": "Express Auto Service", "category": "mechanic", "address": "56 Green Park, Delhi", "lng": 77.2069, "lat": 28.5494, "phone": "+91 98765 43225", "rating": 4.6, "review_count": 167, "description": "Fast car servicing. Oil change and brake specialists."},
+    {"name": "Reliable Motors", "category": "mechanic", "address": "78 Mayur Vihar, Delhi", "lng": 77.2975, "lat": 28.6089, "phone": "+91 98765 43226", "rating": 4.8, "review_count": 234, "description": "Trusted car repair shop. AC repair and battery replacement."},
+    {"name": "Prime Auto Care", "category": "mechanic", "address": "90 Rajouri Garden, Delhi", "lng": 77.1211, "lat": 28.6419, "phone": "+91 98765 43227", "rating": 3.9, "review_count": 48, "description": "Affordable car maintenance. All services under one roof."},
+    
+    {"name": "Current Electric", "category": "electrician", "address": "12 Shahdara, Delhi", "lng": 77.2864, "lat": 28.6742, "phone": "+91 98765 43228", "rating": 4.7, "review_count": 198, "description": "Residential and commercial electrical work. Licensed contractors."},
+    {"name": "Wiring Experts", "category": "electrician", "address": "34 Uttam Nagar, Delhi", "lng": 77.0594, "lat": 28.6219, "phone": "+91 98765 43229", "rating": 4.5, "review_count": 141, "description": "Complete house wiring solutions. Inverter installation specialists."},
 ]
 
 SOURCE_TYPES = ["scrape", "manual", "receipt", "quote"]
@@ -112,7 +130,10 @@ async def seed():
             "name": p["name"],
             "category": p["category"],
             "address": p["address"],
-            "city": "London",
+            "city": "Delhi",
+            "phone": p.get("phone"),
+            "email": p.get("email"),
+            "website": p.get("website"),
             "location": {"type": "Point", "coordinates": [p["lng"], p["lat"]]},
             "rating": p.get("rating"),
             "review_count": p.get("review_count"),
@@ -141,7 +162,7 @@ async def seed():
             "service_type": service["slug"],
             "category": service["category"],
             "price": price,
-            "currency": "GBP",
+            "currency": "INR",
             "source_type": random.choice(SOURCE_TYPES),
             "location": provider["location"],
             "observed_at": observed_at,

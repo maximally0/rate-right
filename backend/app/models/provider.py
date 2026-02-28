@@ -15,14 +15,17 @@ class GeoJSONPoint(BaseModel):
 
 
 class ProviderCreate(BaseModel):
-    name: str = Field(..., examples=["QuickFix Garage"])
+    name: str = Field(..., examples=["QuickFix Auto"])
     category: str = Field(..., examples=["mechanic"])
     location: GeoJSONPoint
-    address: str = Field(..., examples=["123 High Street, London"])
-    city: str = Field(default="London", examples=["London"])
+    address: str = Field(..., examples=["123 Connaught Place, Delhi"])
+    city: str = Field(default="Delhi", examples=["Delhi"])
+    phone: str | None = Field(default=None, examples=["+91 98765 43210"])
+    email: str | None = Field(default=None, examples=["contact@quickfix.in"])
+    website: str | None = Field(default=None, examples=["https://quickfix.in"])
     rating: float | None = Field(default=None, ge=0, le=5, examples=[4.8])
     review_count: int | None = Field(default=None, ge=0, examples=[214])
-    description: str | None = Field(default=None, examples=["Fast, friendly phone repairs."])
+    description: str | None = Field(default=None, examples=["Fast, reliable car repairs."])
 
 
 class ProviderResponse(BaseModel):
@@ -32,6 +35,9 @@ class ProviderResponse(BaseModel):
     location: GeoJSONPoint
     address: str
     city: str
+    phone: str | None = None
+    email: str | None = None
+    website: str | None = None
     rating: float | None = None
     review_count: int | None = None
     description: str | None = None
